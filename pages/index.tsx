@@ -1,15 +1,42 @@
-import Link from 'next/link'
+import { GetStaticProps } from 'next'
+import axios from 'axios'
+import { Post } from '../interfaces'
 import Layout from '../components/Layout'
+import List from '../components/List'
+import { connect } from 'react-redux'
+import { getAllPosts } from '../store/actions'
 
-const IndexPage = () => (
-  <Layout title="Home | Next.js + TypeScript Example">
-    <h1>Hello Next.js 👋</h1>
-    <p>
-      <Link href="/about">
-        <a>About</a>
-      </Link>
-    </p>
-  </Layout>
-)
+type Props = {
+    posts: Post[]
+}
 
-export default IndexPage
+const WithStaticProps = ({ posts }: Props) => {
+    if(posts.length){
+        return(
+            <Layout title="Users List | Next.js + TypeScript Example">
+                <List posts={posts} />
+            </Layout>)
+    } else {
+      return(
+          <Layout title="Users List | Next.js + TypeScript Example">
+              <p>loading</p>
+          </Layout>
+      )
+    }
+    
+}
+
+
+const mapStateToProps = (store: any) => {
+    return {
+       posts: store.postReducer.posts
+    }
+}
+
+const mapDispatchToProps = (dispatch: any) => {
+    return {
+        getAllPosts: dispatch(getAllPosts())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(WithStaticProps)

@@ -1,19 +1,25 @@
 import * as React from 'react'
 import ListItem from './ListItem'
-import { User } from '../interfaces'
+import { Post } from '../interfaces'
+import styled from 'styled-components'
 
 type Props = {
-  items: User[]
+  posts: Post[]
 }
 
-const List: React.FunctionComponent<Props> = ({ items }) => (
-  <ul>
-    {items.map((item) => (
-      <li key={item.id}>
-        <ListItem data={item} />
-      </li>
+const List: React.FunctionComponent<Props> = ({ posts }) => (
+  <UlElement>
+    {posts.map((item) => (
+        <ListItem key={item.id} data={item} />
     ))}
-  </ul>
+  </UlElement>
 )
 
 export default List
+
+const UlElement = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+`
